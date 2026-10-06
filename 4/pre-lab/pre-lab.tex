@@ -1,0 +1,26 @@
+\documentclass[a4paper,12pt]{article}
+\input{LaTeX-ToolKit/template.tex}
+\pagestyle{empty}
+\begin{document}
+\temdoc
+\sct*{電子學實驗(一)\\Analysis of a Common-Source Amplifier 預報}
+\ssc*{B14901078 林孜謙、B14901153 沈威宇}
+\ssc{實驗目的}
+\bit
+\item Analyze the DC bias point of a common-source amplifier.
+\item Measure the small-signal voltage gain with and without the capacitor \(C_S\).
+\item Investigate the frequency response the amplifier.
+\eit
+\ssc{預備實驗的電路圖}
+\cticg[width=0.8\textwidth]{a.jpg}
+\ssc{預備量測的數據}
+\sssc{DC analysis}
+Measure $V_G,V_D,V_S,I_G,I_D,$ and $I_S$. This determines the bias point at which the circuit is operating.
+\sssc{Small-signal analysis}
+With and without $C_S$, at frequency of 1 kHz to 20 kHz,
+\bit
+\item measure $v_o$ and $v_{sig}$ with oscilloscope,
+\item compute the voltage gain $\abs{\frac{v_o}{v_{sig}}}$, and
+\item record the input and output waveforms in Y-t mode.
+\eit
+\end{document}

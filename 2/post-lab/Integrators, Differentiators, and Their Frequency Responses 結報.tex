@@ -1,0 +1,155 @@
+\documentclass[a4paper,12pt]{article}
+\input{LaTeX-ToolKit/template.tex}
+\begin{document}
+\title{電子學實驗(一)\\Integrators, Differentiators, and Their Frequency Responses\\結報}
+\author{B14901078 林孜謙、B14901153 沈威宇}
+\date{}
+\titledoc
+\sct{Exp. 1 Integrator}
+\ssc{Circuit}
+Measure $v_I$ and $v_O$ waveforms of an op amp where input voltage $v_I$ is connected to $v_-$ through an input resistance $R=1$ k\textOmega (current from $v_I$ to $v_-$), $v_+$ is connected to ground, and $v_O$ is fed back to $v_-$ through a capacitance $C=0.01$ \textmu{}F (103) (current from $v_-$ to $v_O$), under triangle, square, and sinusoidal $v_I$ with amplitude $0.2$.
+\ssc{Theoretical results}
+$v_O(0^-)$ is the initial voltage across $C$ ($v_O$ relative to $v_-$).
+
+Time domain:
+\[v_+=v_-=0\]
+\[i_I=\frac{v_I}{R}=i_C=-C\dv{v_O}{t}\]
+\[v_O=v_O(0^-)-\frac{1}{RC}\int_0^tv_I(\tau)\dd{\tau}\]
+Laplace domain:
+\[V_+=V_-=0\]
+\[I_I=\frac{V_I}{R}=I_C=-CsV_O+Cv_O(0^-)\]
+\[V_O=\frac{1}{s}v_O(0^-)-\frac{1}{RCs}V_I\]
+Transfer function: Infinite DC gain. $90$ degrees phase shift.
+\[H(s)=\frac{V_o}{V_i}=-\frac{1}{RCs}\]
+Unity-gain frequency
+\[\frac{1}{2\pi RC}\approx\tx{15.9 kHz}\]
+Zero-state responses:
+\bit
+\item Triangle wave input:
+\[v_I(t)=4A\qty(\abs{\frac{t}{T}-\floor{\frac{t}{T}+\frac{1}{2}}}-\frac{1}{4})\qc A,T>0\]
+\[v_O(t)=-\frac{AT}{RC}\qty(2s\abs{s}-s)\qc s=\frac{t}{T}-\floor{\frac{t}{T}+\frac{1}{2}}\]
+\item Square wave input:
+\[v_I(t)=2A\qty(\floor{\frac{t}{T}}-\floor{\frac{t}{T}+\frac{1}{2}}+\frac{1}{2})\qc A,T>0\]
+Triangle wave output with amplitude $\frac{AT}{4RC}$
+\[v_O(t)=-\frac{AT}{RC}\qty(\abs{\frac{t}{T}-\floor{\frac{t}{T}+\frac{1}{2}}}-\frac{1}{4})\]
+\item Sinusoidal input:
+\[v_I(t)=A\sin(\frac{t}{T})\qc A,T>0\]
+Sinusoidal output 90 degrees leading input with amplitude $\frac{AT}{RC}$.
+\[v_O(t)=\frac{AT}{RC}\cos(\frac{t}{T})\]
+\eit
+\ssc{實驗結果與數據分析}
+\cticg[width=0.8\tw]{int_trig.jpg}[Integrator triangle wave input]
+\cticg[width=0.8\tw]{int_squ.jpg}[Integrator square wave input]
+\cticg[width=0.8\tw]{int_sin.jpg}[Integrator sinusoidal wave input]
+All three agree with the theoretical results.
+\sct{Exp. 2 Differentiator}
+\ssc{Circuit}
+Measure $v_I$ and $v_O$ waveforms of an op amp where input voltage $v_I$ is connected to $v_-$ through an input capacitor $C=0.01$ \textmu{}F (103) (current from $v_I$ to $v_-$), $v_+$ is connected to ground, and $v_O$ is fed back to $v_-$ through a resistor $R=1$ k\textOmega (current from $v_-$ to $v_O$), under triangle, square, and sinusoidal $v_I$ with amplitude $0.2$.
+\ssc{Theoretical results}
+$v_I(0^-)$ is the initial voltage across $C$ ($v_I$ relative to $v_-$).
+
+Time domain:
+\[i_I=C\dv{v_I}{t}=i_f=\frac{-v_O}{R}\]
+\[v_O=-RC\dv{v_I}{t}\]
+Laplace domain:
+\[I_I=CsV_I-Cv_I(0^-)=I_f=\frac{-V_O}{R}\]
+\[V_O=-RCsV_I+RCv_I(0^-)\]
+Transfer function: Infinite gain at $\omega=\infty$. $-90$ degrees phase shift.
+\[H(s)=\frac{V_o}{V_i}=-RCs\]
+Unity-gain frequency
+\[\frac{1}{2\pi RC}\approx\tx{15.9 kHz}\]
+Responses:
+\bit
+\item Triangle wave input:
+\[v_I(t)=4A\qty(\abs{\frac{t}{T}-\floor{\frac{t}{T}+\frac{1}{2}}}-\frac{1}{4})\qc A,T>0\]
+Square wave with amplitude $\frac{4ARC}{T}$
+\[v_O(t)=-\frac{8ARC}{T}\qty(\floor{\frac{t}{T}}-\floor{\frac{t}{T}+\frac{1}{2}}+\frac{1}{2})\qc\frac{2t}{T}\notin\bbZ\]
+\item Square wave input:
+\[v_I(t)=2A\qty(\floor{\frac{t}{T}}-\floor{\frac{t}{T}+\frac{1}{2}}+\frac{1}{2})\qc A,T>0\]
+Dirac delta sum output
+\[v_O(t)=2ARC\sum_{n\in\bbZ}\delta(t-nT)-\delta(t-\qty(n+\frac{1}{2})T)\]
+\item Sinusoidal input:
+\[v_I(t)=A\sin(\frac{t}{T})\qc A,T>0\]
+Sinusoidal output 90 degrees lagging input with amplitude $\frac{ARC}{T}$.
+\[v_O(t)=-\frac{ARC}{T}\cos(\frac{t}{T})\]
+\eit
+\ssc{實驗結果與數據分析}
+\cticg[width=0.8\tw]{dif_trig.jpg}[Differentiator triangle wave input]
+\cticg[width=0.8\tw]{dif_squ.jpg}[Differentiator square wave input]
+\cticg[width=0.8\tw]{dif_sin.jpg}[Differentiator sinusoidal wave input]
+All three agree with the theoretical results. For the triangle wave input, the underdamping effect at each transition of square wave output is likely due to parasitic impedances.
+\sct{Exp. 3 Frequency Responses (I) Integrator}
+\ssc{Circuit}
+Measure frequency response of the circuit in Exp. 1 Integrator under
+\[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{300 kHz}\]
+and sketch the Bode magnitude plot.
+\ssc{實驗結果與數據分析}
+\cticg[width=0.8\tw]{3Iint_table.png}
+\ssc{Bode plot}
+\cticg[width=0.8\tw]{3Iint_plot.png}
+\sct{Exp. 3 Frequency Responses (I) Differentiator}
+\ssc{Circuit}
+Measure frequency response of the circuit in Exp. 2 Differentiator under
+\[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{100 kHz}\]
+and sketch the Bode magnitude plot.
+\ssc{實驗結果與數據分析}
+\cticg[width=0.8\tw]{3Idiff_table.png}
+\ssc{Bode plot}
+\cticg[width=0.8\tw]{3Idiff_plot.png}
+\sct{Exp. 3 Frequency Responses (II) Integrator without feedback resistor}
+\ssc{Circuit}
+Measure frequency response of the circuit in Exp. 1 Integrator with the capacitor $C$ replaced with a capacitor $C=0.001$ \textmu{}F (102) under
+\[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{1 MHz}\]
+and sketch the Bode magnitude plot.
+\ssc{Theoretical results}
+Unity-gain frequency
+\[\frac{1}{2\pi RC}\approx\tx{159 kHz}\]
+\ssc{實驗結果與數據分析}
+\cticg[width=0.7\tw]{3IIwithout_table.png}
+\ssc{Bode plot}
+\cticg[width=0.8\tw]{3IIwithout_plot.png}
+\sct{Exp. 3 Frequency Responses (II) Integrator with feedback resistor}
+\ssc{Circuit}
+Measure frequency response of the circuit in Exp. 1 Integrator with the capacitor $C$ replaced with a capacitor $C=0.001$ \textmu{}F (102) and a resistor $R_F$ in parallel connection under
+\[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{1 MHz}\]
+and sketch the Bode magnitude plot.
+\ssc{Theoretical results}
+Laplace domain:
+\[V_+=V_-=0\]
+\[I_I=\frac{V_I}{R}=I_F=-\qty(\frac{1}{R_F}+Cs)V_O+Cv_O(0^-)=-\frac{1+R_FCs}{R_F}V_O+Cv_O(0^-)\]
+\[V_O=\frac{R_FC}{1+R_FCs}v_O(0^-)-\frac{\frac{R_F}{R}}{1+R_FCs}V_I\]
+Transfer function: STC low-pass with cutoff frequency $\frac{1}{2\pi R_FC}$ and DC gain $\frac{R_F}{R}$.
+\[H(s)=\frac{V_o}{V_i}=-\frac{\frac{R_F}{R}}{1+R_FCs}\]
+\ssc{實驗結果與數據分析}
+\cticg[width=0.8\tw]{3IIwith_table.png}
+\ssc{Bode plot}
+\cticg[width=0.8\tw]{3IIwith_plot.png}
+\sct{誤差可能原因}
+The differences between the theoretical and experimental results may be attributed to the following factors:
+\bit
+\item Measurement limitations: Oscilloscope has inadequate precision when the output amplitude becomes small.
+\item Non-ideal operational amplifier characteristics: The operational amplifier has finite open-loop gain, gain-bandwidth product, slew rate, etc.
+\item Output saturation: The ideal integrator has infinite DC gain. Small DC offsets and input bias may make low-frequency measurements deviate from the ideal op-amp model.
+\item Component tolerances: The actual resistance and capacitance values may differ from their nominal values, and the probes and contact points may have nonzero impedances.
+\item Parasitic effects: Parasitic impedances in the circuit and measurement equipment may affect the frequency response, especially at high frequencies.
+\eit
+\sct{實驗心得}
+\ssc{B14901078 林孜謙}
+在這次的實驗中，我們觀察了積分器、微分器的輸入、輸出波型，測量兩者的頻率響應，以及測量積分器有無並聯電阻的頻率響應。
+
+在前兩個實驗中，可以看到弦波積分後仍為弦波，方波積分後變為三角波，三角波積分後變為拋物線；弦波微分後仍為弦波，方波微分後變成脈衝波，三角波微分後變為方波。同時也可以觀察到一些非理想情況例如微分三角波形成的方波有overshoot的情況出現。
+
+在第三組實驗，我們觀察到integrator類似於low pass STC，而differentiator類似於high pass STC，實驗結果也跟理論值很相近。
+
+在第四組實驗中，我們觀察到並聯200k feedback電阻可以讓integrator在低頻的增益不會一直增加到無限大，而是會被限制在約26dB附近。
+
+總的來說，這次的實驗讓我對積分器與微分器的性質與行為有了更深刻的了解，操作到理論課上教過的放大器電路與觀察現象也很有趣。
+\ssc{B14901153 沈威宇}
+Through this experiment, I gained a better understanding of integrators and differentiators, and realized the importance of avoiding infinite gain and accounting for practical limitations such as saturation and parasitic impedances in circuit design.
+
+By measuring the gain at different frequencies, I observed deviations of the measured responses from the ideal predictions. For example, the integrator exhibited output saturation at low frequencies and reached the precision limit of the oscilloscope at high frequencies, while the differentiator showed oscillation near waveform transitions.
+
+Plotting the measured and theoretical Bode plots and computing errors provided another useful perspective. It allowed me to compare their slopes, gain levels, and characteristic frequencies, while also enhancing my proficiency in using Python and Matplotlib.
+
+Overall, this experiment showed me that designing a good circuit requires more than realizing the desired transfer function using ideal components. Dealing with practical limitations is a more intriguing and difficult part that cannot be overemphasized.
+\end{document}
