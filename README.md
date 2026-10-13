@@ -1,4 +1,5 @@
-## Noninverting amplifier
+## 1
+### Noninverting amplifier
 
 - Target: An op amp operating under $\pm 15$ V where $v_i$ is connected to $v_+$, $v_-$ is connected ground through a 1 k Ohm resistance, and $v_o$ is connected to $v_-$ through a 2 k Ohm resistance
 - Input: 500-500 k Hz 2 V amplitude sine wave
@@ -8,7 +9,7 @@
 - Phase shift: Does in high frequency, about 45 degree shift at $\ge 10^3$ Hz order of magnitude
 - Photos: [`1/photo/Noninverting_amplifier`](1/photo/Noninverting_amplifier)
 
-## Difference amplifier 1
+### Difference amplifier 1
 
 - Target: An op amp operating under $\pm 15$ V where $v_1$ is connected to $v_-$ through a 1 k Ohm resistance, $v_2$ is connected to $v_+$ through a 1 k Ohm resistance, $v_+$ is connected to ground through a 1 k Ohm resistance, and $v_o$ is connected to $v_-$ through a 1 k Ohm resistance
 - Input: 500-500 k Hz 2 V amplitude sine wave
@@ -21,7 +22,7 @@
 - Photos: [`1/photo/Difference_amplifier_1`](1/photo/Difference_amplifier_1)
 
 
-## Difference amplifier 2
+### Difference amplifier 2
 
 - Target: An op amp operating under $\pm 15$ V where $v_1$ is connected to $v_-$ through a 1 k Ohm resistance, $v_2$ is connected to $v_+$ through a 1 k Ohm resistance, $v_+$ is connected to ground through a 1 k Ohm resistance, and $v_o$ is connected to $v_-$ through a 10 k Ohm resistance
 - Input: 500-500 k Hz 2 V amplitude sine wave
@@ -32,7 +33,7 @@
 - Differential gain (measured, floating source, low-frequency): 5.39
 - Photos: [`1/photo/Difference_amplifier_2`](1/photo/Difference_amplifier_2)
 
-## Difference amplifier 3
+### Difference amplifier 3
 
 - Target: An op amp operating under $\pm 15$ V where $v_1$ is connected to $v_-$ through a 1 k Ohm resistance, $v_2$ is connected to $v_+$ through a 1 k Ohm resistance, $v_+$ is connected to ground through a 1 k Ohm resistance, $v_o$ is connected to $v_-$ through a 10 k Ohm resistance, and $v_1$ is connected to ground
 - Input: 500-500 k Hz 2 V amplitude sine wave at $v_2$ relative to ground
