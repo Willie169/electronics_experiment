@@ -3,10 +3,10 @@
 - Target: An op amp operating under $\pm 15$ V where $v_i$ is connected to $v_+$, $v_-$ is connected ground through a 1 k Ohm resistance, and $v_o$ is connected to $v_-$ through a 2 k Ohm resistance
 - Input: 500-500 k Hz 2 V amplitude sine wave
 - Output $v_o$
-- Measured data: [`bode_plot.py`](bode_plot.py) `freq` (frequency (Hz)) and `vout_pp` (output voltage peak-to-peak).
-- Bode magnitude plot: [`bode_plot.png`](bode_plot.png)
+- Measured data and Bode plot Python: [`1/bode_plot.py`](1/bode_plot.py) `freq` (frequency (Hz)) and `vout_pp` (output voltage peak-to-peak).
+- Bode magnitude plot: [`1/bode_plot.png`](1/bode_plot.png)
 - Phase shift: Does in high frequency, about 45 degree shift at $\ge 10^3$ Hz order of magnitude
-- Photos: [`photo/Noninverting_amplifier`](photo/Noninverting_amplifier)
+- Photos: [`1/photo/Noninverting_amplifier`](1/photo/Noninverting_amplifier)
 
 ## Difference amplifier 1
 
@@ -18,7 +18,7 @@
 - Differential gain (expected): 1
 - Differential gain (measured, low-frequency): 1
 - Normalized differential frequency response: Similar to that of noninverting amplifier
-- Photos: [`photo/Difference_amplifier_1`](photo/Difference_amplifier_1)
+- Photos: [`1/photo/Difference_amplifier_1`](1/photo/Difference_amplifier_1)
 
 
 ## Difference amplifier 2
@@ -30,7 +30,7 @@
 - Common-mode gain (measured): -4.48
 - Differential gain (expected): 7.75
 - Differential gain (measured, floating source, low-frequency): 5.39
-- Photos: [`photo/Difference_amplifier_2`](photo/Difference_amplifier_2)
+- Photos: [`1/photo/Difference_amplifier_2`](1/photo/Difference_amplifier_2)
 
 ## Difference amplifier 3
 
@@ -38,5 +38,5 @@
 - Input: 500-500 k Hz 2 V amplitude sine wave at $v_2$ relative to ground
 - Output $v_o$
 - Result: Square wave
-- Photos: [`photo/Difference_amplifier_3`](photo/Difference_amplifier_3)
+- Photos: [`1/photo/Difference_amplifier_3`](1/photo/Difference_amplifier_3)
 
