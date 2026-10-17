@@ -8,7 +8,7 @@
 \sct{實驗目的}
 \bit
 \item To understand the operating principles of Miller integrator and its feasible configuration with feedback resistor in parallel connection, and differentiator circuits.
-\item To observe their output waveform under triangular, square, and sine waves.
+\item To observe their output waveform under triangle, square, and sinusoidal waves.
 \item To measure their frequency responses and sketch the Bode magnitude plots.
 \eit
 \sct{預備實驗的電路圖}
@@ -17,7 +17,99 @@
 \cticg[width=0.8\tw]{4.png}
 \cticg[width=0.8\tw]{5.png}
 \sct{預備量測的數據}
+\ssc{Exp. 1 Integrator}
+Measure $v_I$ and $v_O$ waveforms of an op amp where input voltage $v_I$ is connected to $v_-$ through an input resistance $R=1$ k\textOmega (current from $v_I$ to $v_-$), $v_+$ is connected to ground, and $v_O$ is fed back to $v_-$ through a capacitance $C=0.01$ \textmu{}F (103) (current from $v_-$ to $v_O$), under triangle, square, and sinusoidal $v_I$ with amplitude $0.2$.
 
-% 實驗注意事項
-% 回答預報問題
+Theoretical results:
+
+$v_O(0^-)$ is the initial voltage across $C$ ($v_O$ relative to $v_-$).
+
+Time domain:
+\[v_+=v_-=0\]
+\[i_I=\frac{v_I}{R}=i_C=-C\dv{v_O}{t}\]
+\[v_O=v_O(0^-)-\frac{1}{RC}\int_0^tv_I(\tau)\dd{\tau}\]
+Laplace domain:
+\[V_+=V_-=0\]
+\[I_I=\frac{V_I}{R}=I_C=-CsV_O+Cv_O(0^-)\]
+\[V_O=\frac{1}{s}v_O(0^-)-\frac{1}{RCs}V_I\]
+Transfer function: Infinite DC gain. $90$ degrees phase shift.
+\[H(s)=\frac{V_o}{V_i}=-\frac{1}{RCs}\]
+Unity-gain frequency
+\[\frac{1}{2\pi RC}\approx\tx{15.9 kHz}\]
+Zero-state responses:
+\bit
+\item Triangle wave input:
+\[v_I(t)=4A\qty(\abs{\frac{t}{T}-\floor{\frac{t}{T}+\frac{1}{2}}}-\frac{1}{4})\qc A,T>0\]
+\[v_O(t)=-\frac{AT}{RC}\qty(2s\abs{s}-s)\qc s=\frac{t}{T}-\floor{\frac{t}{T}+\frac{1}{2}}\]
+\item Square wave input:
+\[v_I(t)=2A\qty(\floor{\frac{t}{T}}-\floor{\frac{t}{T}+\frac{1}{2}}+\frac{1}{2})\qc A,T>0\]
+Triangle wave output with amplitude $\frac{AT}{4RC}$
+\[v_O(t)=-\frac{AT}{RC}\qty(\abs{\frac{t}{T}-\floor{\frac{t}{T}+\frac{1}{2}}}-\frac{1}{4})\]
+\item Sinusoidal input:
+\[v_I(t)=A\sin(\frac{t}{T})\qc A,T>0\]
+Sinusoidal output 90 degrees leading input with amplitude $\frac{AT}{RC}$.
+\[v_O(t)=\frac{AT}{RC}\cos(\frac{t}{T})\]
+\eit
+\ssc{Exp. 2 Differentiator}
+Measure $v_I$ and $v_O$ waveforms of an op amp where input voltage $v_I$ is connected to $v_-$ through an input capacitor $C=0.01$ \textmu{}F (103) (current from $v_I$ to $v_-$), $v_+$ is connected to ground, and $v_O$ is fed back to $v_-$ through a resistor $R=1$ k\textOmega (current from $v_-$ to $v_O$), under triangle, square, and sinusoidal $v_I$ with amplitude $0.2$.
+
+Theoretical results:
+
+$v_I(0^-)$ is the initial voltage across $C$ ($v_I$ relative to $v_-$).
+
+Time domain:
+\[i_I=C\dv{v_I}{t}=i_f=\frac{-v_O}{R}\]
+\[v_O=-RC\dv{v_I}{t}\]
+Laplace domain:
+\[I_I=CsV_I-Cv_I(0^-)=I_f=\frac{-V_O}{R}\]
+\[V_O=-RCsV_I+RCv_I(0^-)\]
+Transfer function: Infinite gain at $\omega=\infty$. $-90$ degrees phase shift.
+\[H(s)=\frac{V_o}{V_i}=-RCs\]
+Unity-gain frequency
+\[\frac{1}{2\pi RC}\approx\tx{15.9 kHz}\]
+Responses:
+\bit
+\item Triangle wave input:
+\[v_I(t)=4A\qty(\abs{\frac{t}{T}-\floor{\frac{t}{T}+\frac{1}{2}}}-\frac{1}{4})\qc A,T>0\]
+Square wave with amplitude $\frac{4ARC}{T}$
+\[v_O(t)=-\frac{8ARC}{T}\qty(\floor{\frac{t}{T}}-\floor{\frac{t}{T}+\frac{1}{2}}+\frac{1}{2})\qc\frac{2t}{T}\notin\bbZ\]
+\item Square wave input:
+\[v_I(t)=2A\qty(\floor{\frac{t}{T}}-\floor{\frac{t}{T}+\frac{1}{2}}+\frac{1}{2})\qc A,T>0\]
+Dirac delta sum output
+\[v_O(t)=2ARC\sum_{n\in\bbZ}\delta(t-nT)-\delta(t-\qty(n+\frac{1}{2})T)\]
+\item Sinusoidal input:
+\[v_I(t)=A\sin(\frac{t}{T})\qc A,T>0\]
+Sinusoidal output 90 degrees lagging input with amplitude $\frac{ARC}{T}$.
+\[v_O(t)=-\frac{ARC}{T}\cos(\frac{t}{T})\]
+\eit
+\ssc{Exp. 3 Frequency Responses (I)}
+Measure frequency response of the circuit in Exp. 1 Integrator under
+\[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{300 kHz}\]
+and sketch the Bode magnitude plot.
+
+Measure frequency response of the circuit in Exp. 2 Differentiator under
+\[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{100 kHz}\]
+and sketch the Bode magnitude plot.
+\ssc{Exp. 3 Frequency Responses (II)}
+Measure frequency response of the circuit in Exp. 1 Integrator with the capacitor $C$ replaced with a capacitor $C=0.001$ \textmu{}F (102) under
+\[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{1 MHz}\]
+and sketch the Bode magnitude plot.
+
+Theoretical results:
+
+Unity-gain frequency
+\[\frac{1}{2\pi RC}\approx\tx{159 kHz}\]
+
+Measure frequency response of the circuit in Exp. 1 Integrator with the capacitor $C$ replaced with a capacitor $C=0.001$ \textmu{}F (102) and a resistor $R_F$ in parallel connection under
+\[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{1 MHz}\]
+and sketch the Bode magnitude plot.
+
+Theoretical results:
+
+Laplace domain:
+\[V_+=V_-=0\]
+\[I_I=\frac{V_I}{R}=I_F=-\qty(\frac{1}{R_F}+Cs)V_O+Cv_O(0^-)=-\frac{1+R_FCs}{R_F}V_O+Cv_O(0^-)\]
+\[V_O=\frac{R_FC}{1+R_FCs}v_O(0^-)-\frac{\frac{R_F}{R}}{1+R_FCs}V_I\]
+Transfer function: STC low-pass with cutoff frequency $\frac{1}{2\pi R_FC}$ and DC gain $\frac{R_F}{R}$.
+\[H(s)=\frac{V_o}{V_i}=-\frac{\frac{R_F}{R}}{1+R_FCs}\]
 \end{document}
