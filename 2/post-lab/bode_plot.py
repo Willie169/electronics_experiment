@@ -64,14 +64,14 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     data = [
         [
             f"{f:.0f}",
-            f"{m:.5f}",
-            f"{md:.5f}",
-            f"{i:.5f}",
-            f"{id:.5f}",
-            f"{ie:.5f}",
-            f"{g:.5f}",
-            f"{gd:.5f}",
-            f"{ge:.5f}",
+            f"{m:.7f}",
+            f"{md:.7f}",
+            f"{i:.7f}",
+            f"{id:.7f}",
+            f"{ie:.7f}",
+            f"{g:.7f}",
+            f"{gd:.7f}",
+            f"{ge:.7f}",
         ]
         for f, m, md, i, id, ie, g, gd, ge in zip(
             freq,
@@ -94,7 +94,7 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
         cellLoc="center",
     )
     table.auto_set_font_size(False)
-    table.set_fontsize(6)
+    table.set_fontsize(5)
     table.scale(1, 1)
     fig.savefig(tablename, dpi=300, bbox_inches="tight")
     plt.close(fig)
