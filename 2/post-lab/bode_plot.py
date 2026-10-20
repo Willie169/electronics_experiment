@@ -12,7 +12,6 @@ VIN_PP = 0.4  # Input peak-to-peak voltage, V
 def transfer_function(freq, name, C):
     # Return ideal and finite-GBW complex transfer functions
     s = 2j * np.pi * np.asarray(freq, dtype=float)
-    A = GBW / (s)
     if name == "integrator_with_rf":
         # input resistor R
         # feedback capacitor C in parallel with RF
@@ -31,7 +30,7 @@ def transfer_function(freq, name, C):
     else:
         raise ValueError(f"Unknown name: {name}")
     H_ideal = -Zf / Zin
-    H_gbw = -A * Zf / (Zf + (1 + A) * Zin)
+    H_gbw = -H_ideal / (1 + s * (1 - H_ideal) / GBW)
     return H_ideal, H_gbw
 
 
