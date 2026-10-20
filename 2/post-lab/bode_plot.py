@@ -19,7 +19,7 @@ def foo(vin_pp, freq, vout_pp, title, filename):
 
 vin_pp = 0.4
 
-freq1 = np.concatenate(
+freq_int_103 = np.concatenate(
     [
         np.arange(100, 2000, 100),
         np.arange(2000, 3000, 200),
@@ -31,7 +31,7 @@ freq1 = np.concatenate(
     ]
 )
 
-vout_pp1 = np.array(
+vout_pp_int_103 = np.array(
     [
         27.4,  # 100
         27.4,
@@ -81,7 +81,7 @@ vout_pp1 = np.array(
     ]
 )
 
-freq2 = np.concatenate(
+freq_int_102 = np.concatenate(
     [
         np.arange(2000, 4000, 100),
         np.arange(4000, 10000, 500),
@@ -93,7 +93,7 @@ freq2 = np.concatenate(
     ]
 )
 
-vout_pp2 = np.array(
+vout_pp_int_102 = np.array(
     [
         24.8,  # 2k
         23.8,  # 2.1k
@@ -154,5 +154,60 @@ vout_pp2 = np.array(
     ]
 )
 
-foo(vin_pp, freq1, vout_pp1, "103 Integrator Bode Magnitude Plot", "103.png")
-foo(vin_pp, freq2, vout_pp2, "102 Integrator Bode Magnitude Plot", "102.png")
+freq_diff = np.array(
+    [
+        100,
+        200,
+        500,
+        1000,
+        1500,
+        2000,
+        2500,
+        3700,
+        4500,
+        5000,
+        7000,
+        10000,
+        20000,
+        50000,
+        100000,
+        200000,
+        500000,
+        1000000,
+    ]
+)
+
+vout_pp_diff=np.array([8,8,8,7.92,7.76,7.6,7.4,7,6.6,6.32,5.4,4.4,2.48,1.12,0.56,0.4,0.24,0.16])
+
+freq_int_shunt=np.array([100,200,500,1000,1500,2000,2500,3700,4500,5000,7000,10000,20000,50000,100000,200000,500000,1000000])
+
+vout_pp_int_shunt=np.array([8,8,8,7.92,7.76,7.6,7.4,7,6.6,6.32,5.4,4.4,2.48,1.12,0.56,0.4,0.24,0.16])
+
+foo(
+    vin_pp,
+    freq_int_103,
+    vout_pp_int_103,
+    "Exp. 3 (I) Integrator Bode Magnitude Plot",
+    "3Iint.png",
+)
+foo(
+    vin_pp,
+    freq_diff,
+    vout_pp_diff,
+    "Exp. 3 (I) Differentiator Bode Magnitude Plot",
+    "3Idiff.png",
+)
+foo(
+    vin_pp,
+    freq_int_102,
+    vout_pp_int_102,
+    "Exp. 3 (II) Integrator without feedback resistor Bode Magnitude Plot",
+    "3IIwo.png",
+)
+foo(
+    vin_pp,
+    freq_int_shunt,
+    vout_pp_int_shunt,
+    "Exp. 3 (II) Integrator with Feedback Resistor Bode Magnitude Plot",
+    "3IIw.png",
+)
