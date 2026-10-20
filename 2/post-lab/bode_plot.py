@@ -48,30 +48,30 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     measured_db = 20 * np.log10(measured / VIN_PP)
     ideal_db = magnitude_db(H_ideal)
     gbw_db = magnitude_db(H_gbw)
-    ideal_error = (measured - ideal_vout) / ideal_vout
-    gbw_error = (measured - gbw_vout) / gbw_vout
+    ideal_error = 100 * (measured - ideal_vout) / ideal_vout
+    gbw_error = 100 * (measured - gbw_vout) / gbw_vout
     columns = [
         "frequency (Hz)",
-        "measured output voltage peak-to-peak (V)",
+        "measured vout_pp (V)",
         "measured gain (dB)",
-        "ideal output voltage peak-to-peak (V)",
+        "ideal vout_pp (V)",
         "ideal gain (dB)",
-        "relative error w.r.t. ideal",
-        "GBW output voltage peak-to-peak (V)",
+        "error w.r.t. ideal (%)",
+        "GBW vout_pp (V)",
         "GBW gain (dB)",
-        "relative error w.r.t. GBW",
+        "error w.r.t. GBW (%)",
     ]
     data = [
         [
             f"{f:.0f}",
-            f"{m:.3f}",
-            f"{md:.3f}",
-            f"{i:.3f}",
-            f"{id:.3f}",
-            f"{ie:.3f}",
-            f"{g:.3f}",
-            f"{gd:.3f}",
-            f"{ge:.3f}",
+            f"{m:.5f}",
+            f"{md:.5f}",
+            f"{i:.5f}",
+            f"{id:.5f}",
+            f"{ie:.5f}",
+            f"{g:.5f}",
+            f"{gd:.5f}",
+            f"{ge:.5f}",
         ]
         for f, m, md, i, id, ie, g, gd, ge in zip(
             freq,
