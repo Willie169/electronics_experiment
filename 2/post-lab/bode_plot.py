@@ -48,18 +48,18 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     measured_db = 20 * np.log10(measured / VIN_PP)
     ideal_db = magnitude_db(H_ideal)
     gbw_db = magnitude_db(H_gbw)
-    ideal_error = 100 * (measured - ideal_vout) / ideal_vout
-    gbw_error = 100 * (measured - gbw_vout) / gbw_vout
+    ideal_error = (measured - ideal_vout) / ideal_vout
+    gbw_error = (measured - gbw_vout) / gbw_vout
     columns = [
         "frequency (Hz)",
         "measured output voltage peak-to-peak (V)",
         "measured gain (dB)",
         "ideal output voltage peak-to-peak (V)",
         "ideal gain (dB)",
-        "ideal error percent",
+        "relative error w.r.t. ideal",
         "GBW output voltage peak-to-peak (V)",
         "GBW gain (dB)",
-        "GBW error percent",
+        "relative error w.r.t. GBW",
     ]
     data = np.column_stack(
         [
