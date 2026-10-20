@@ -1,23 +1,98 @@
+import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
+R = 1e3  # Integrator input resistor, ohms
+RF = 20e3  # Integrator feedback resistor, ohms
+R_DIFF = 1e3  # Differentiator feedback resistor, ohms
+GBW = 1e6  # Op-amp gain-bandwidth product, Hz
+VIN_PP = 0.4  # Input peak-to-peak voltage, V
+ZERO_SUBSTITUTE = 1.175494e-38
 
-def foo(vin_pp, freq, vout_pp, title, filename):
+
+def transfer_function(freq, name, C):
+    # Return ideal and finite-GBW complex transfer functions
+    s = 2j * np.pi * np.asarray(freq, dtype=float)
+    A = GBW / (s)
+    if name == "integrator_with_rf":
+        # input resistor R
+        # feedback capacitor C in parallel with RF
+        Zin = R
+        Zf = 1 / (1 / RF + s * C)
+    elif name == "integrator_without_rf":
+        # input resistor R
+        # feedback capacitor C
+        Zin = R
+        Zf = 1 / (s * C)
+    elif name == "differentiator":
+        # input capacitor C
+        # feedback resistor R_DIFF
+        Zin = 1 / (s * C)
+        Zf = R_DIFF
+    else:
+        raise ValueError(f"Unknown name: {name}")
+    H_ideal = -Zf / Zin
+    H_gbw = -A * Zf / (Zf + (1 + A) * Zin)
+    return H_ideal, H_gbw
+
+
+def magnitude_db(H):
+    return 20 * np.log10(np.abs(H))
+
+
+def process(C, freq, vout_pp, name, title, fig_filename, csv_filename):
     assert freq.shape == vout_pp.shape
-    gain = vout_pp / vin_pp
-    gain_db = 20 * np.log10(gain)
-    plt.figure(figsize=(9, 6))
-    plt.semilogx(freq, gain_db, "o-", label="Measured")
+    freq = np.asarray(freq, dtype=float)
+    measured = np.asarray(vout_pp, dtype=float)
+    H_ideal, H_gbw = transfer_function(freq, name, C)
+    ideal_vout = VIN_PP * np.abs(H_ideal)
+    gbw_vout = VIN_PP * np.abs(H_gbw)
+    measured_db = 20 * np.log10(measured / VIN_PP)
+    ideal_db = magnitude_db(H_ideal)
+    gbw_db = magnitude_db(H_gbw)
+    ideal_error = 100 * (measured - ideal_vout) / ideal_vout
+    gbw_error = 100 * (measured - gbw_vout) / gbw_vout
+    columns = [
+        "frequency_Hz",
+        "measured_vout_pp_V",
+        "measured_gain_dB",
+        "ideal_vout_pp_V",
+        "ideal_gain_dB",
+        "ideal_error_percent",
+        "gbw_vout_pp_V",
+        "gbw_gain_dB",
+        "gbw_error_percent",
+    ]
+    data = np.column_stack(
+        [
+            freq,
+            measured,
+            measured_db,
+            ideal_vout,
+            ideal_db,
+            ideal_error,
+            gbw_vout,
+            gbw_db,
+            gbw_error,
+        ]
+    )
+    with open(csv_filename, "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(columns)
+        writer.writerows(data)
+    plt.figure(figsize=(10, 6))
+    plt.semilogx(freq, measured_db, "o-", label="Measured")
+    plt.semilogx(freq, ideal_db, "--", label="Ideal op-amp")
+    plt.semilogx(freq, gbw_db, "-.", label="GBW = 1 MHz")
     plt.xlabel("Frequency (Hz)")
     plt.ylabel("Magnitude (dB)")
     plt.title(title)
     plt.grid(True, which="both", linestyle="--", alpha=0.5)
     plt.legend()
     plt.tight_layout()
-    plt.savefig(filename, dpi=300)
+    plt.savefig(fig_filename, dpi=300)
+    plt.close()
 
-
-vin_pp = 0.4
 
 freq_int_103 = np.concatenate(
     [
@@ -79,6 +154,30 @@ vout_pp_int_103 = np.array(
         0.4,
         0.4,
     ]
+)
+
+freq_diff = np.array(
+    [
+        100,
+        200,
+        500,
+        1000,
+        2000,
+        5000,
+        10000,
+        20000,
+        25000,
+        30000,
+        35000,
+        40000,
+        45000,
+        50000,
+        100000,
+    ]
+)
+
+vout_pp_diff = np.array(
+    [0.04, 0.048, 0.056, 0.06, 0.084, 0.15, 0.26, 0.498, 0.8, 1, 1, 1.2, 1.4, 1.6, 2.6]
 )
 
 freq_int_102 = np.concatenate(
@@ -154,31 +253,7 @@ vout_pp_int_102 = np.array(
     ]
 )
 
-freq_diff = np.array(
-    [
-        100,
-        200,
-        500,
-        1000,
-        2000,
-        5000,
-        10000,
-        20000,
-        25000,
-        30000,
-        35000,
-        40000,
-        45000,
-        50000,
-        100000,
-    ]
-)
-
-vout_pp_diff = np.array(
-    [0.04, 0.048, 0.056, 0.06, 0.084, 0.15, 0.26, 0.498, 0.8, 1, 1, 1.2, 1.4, 1.6, 2.6]
-)
-
-freq_int_shunt = np.array(
+freq_int_rf = np.array(
     [
         100,
         200,
@@ -201,7 +276,7 @@ freq_int_shunt = np.array(
     ]
 )
 
-vout_pp_int_shunt = np.array(
+vout_pp_int_rf = np.array(
     [
         8,
         8,
@@ -224,31 +299,46 @@ vout_pp_int_shunt = np.array(
     ]
 )
 
-foo(
-    vin_pp,
+# Exp. 3 (I) Integrator
+process(
+    10e-9,
     freq_int_103,
     vout_pp_int_103,
+    "integrator_without_rf",
     "Exp. 3 (I) Integrator Bode Magnitude Plot",
     "3Iint.png",
+    "3Iint.csv",
 )
-foo(
-    vin_pp,
+
+# Exp. 3 (I) Differentiator
+process(
+    10e-9,
     freq_diff,
     vout_pp_diff,
+    "differentiator",
     "Exp. 3 (I) Differentiator Bode Magnitude Plot",
     "3Idiff.png",
+    "3Idiff.csv",
 )
-foo(
-    vin_pp,
-    freq_int_102,
-    vout_pp_int_102,
-    "Exp. 3 (II) Integrator without feedback resistor Bode Magnitude Plot",
-    "3IIwo.png",
+
+# Exp. 3 (II) Integrator without feedback resistor
+process(
+    1e-9,
+    freq_int_103,
+    vout_pp_int_103,
+    "integrator_without_rf",
+    "Exp. 3 (II) Integrator without Feedback Resistor Bode Magnitude Plot",
+    "3IIwithout.png",
+    "3IIwithout.csv",
 )
-foo(
-    vin_pp,
-    freq_int_shunt,
-    vout_pp_int_shunt,
+
+# Exp. 3 (II) Integrator with feedback resistor
+process(
+    1e-9,
+    freq_int_rf,
+    vout_pp_int_rf,
+    "integrator_with_rf",
     "Exp. 3 (II) Integrator with Feedback Resistor Bode Magnitude Plot",
-    "3IIw.png",
+    "3IIwith.png",
+    "3IIwith.csv",
 )
