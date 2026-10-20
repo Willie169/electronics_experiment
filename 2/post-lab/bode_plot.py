@@ -5,12 +5,10 @@ import matplotlib.pyplot as plt
 R = 1e3  # Integrator input resistor, ohms
 RF = 20e3  # Integrator feedback resistor, ohms
 R_DIFF = 1e3  # Differentiator feedback resistor, ohms
-GBW = 1e6  # Op-amp gain-bandwidth product, Hz
 VIN_PP = 0.4  # Input peak-to-peak voltage, V
 
 
 def transfer_function(freq, name, C):
-    # Return ideal and finite-GBW complex transfer functions
     s = 2j * np.pi * np.asarray(freq, dtype=float)
     if name == "integrator_with_rf":
         # input resistor R
@@ -29,9 +27,7 @@ def transfer_function(freq, name, C):
         Zf = R_DIFF
     else:
         raise ValueError(f"Unknown name: {name}")
-    H_ideal = -Zf / Zin
-    H_gbw = -H_ideal / (1 + s * (1 - H_ideal) / GBW)
-    return H_ideal, H_gbw
+    return -Zf / Zin
 
 
 def magnitude_db(H):
@@ -42,14 +38,11 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     assert freq.shape == vout_pp.shape
     freq = np.asarray(freq, dtype=float)
     measured = np.asarray(vout_pp, dtype=float)
-    H_ideal, H_gbw = transfer_function(freq, name, C)
-    ideal_vout = VIN_PP * np.abs(H_ideal)
-    gbw_vout = VIN_PP * np.abs(H_gbw)
+    H = transfer_function(freq, name, C)
+    ideal_vout = VIN_PP * np.abs(H)
     measured_db = 20 * np.log10(measured / VIN_PP)
-    ideal_db = magnitude_db(H_ideal)
-    gbw_db = magnitude_db(H_gbw)
+    ideal_db = magnitude_db(H)
     ideal_error = 100 * (measured - ideal_vout) / ideal_vout
-    gbw_error = 100 * (measured - gbw_vout) / gbw_vout
     columns = [
         "frequency (Hz)",
         "measured output voltage\npeak-to-peak (V)",
@@ -57,9 +50,6 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
         "ideal output voltage\npeak-to-peak (V)",
         "ideal gain\n(dB)",
         "error w.r.t.\nideal (%)",
-        "GBW output voltage\npeak-to-peak (V)",
-        "GBW gain (dB)",
-        "error w.r.t.\nGBW (%)",
     ]
     data = [
         [
@@ -69,20 +59,14 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
             f"{i:.3f}",
             f"{id:.3f}",
             f"{ie:.3f}",
-            f"{g:.3f}",
-            f"{gd:.3f}",
-            f"{ge:.3f}",
         ]
-        for f, m, md, i, id, ie, g, gd, ge in zip(
+        for f, m, md, i, id, ie in zip(
             freq,
             measured,
             measured_db,
             ideal_vout,
             ideal_db,
             ideal_error,
-            gbw_vout,
-            gbw_db,
-            gbw_error,
         )
     ]
     fig, ax = plt.subplots(figsize=(10, 1))
@@ -100,7 +84,6 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     plt.figure(figsize=(10, 6))
     plt.semilogx(freq, measured_db, "o-", label="Measured")
     plt.semilogx(freq, ideal_db, "--", label="Ideal op-amp")
-    plt.semilogx(freq, gbw_db, "-.", label="GBW = 1 MHz")
     plt.xlabel("Frequency (Hz)")
     plt.ylabel("Magnitude (dB)")
     plt.title(title)
@@ -151,7 +134,7 @@ vout_pp_int_103 = np.array(
         1.8,
         1.8,
         1.6,
-        1.4,
+        1.6,
         1.4,  # 4k
         1.2,  # 5k
         1,
