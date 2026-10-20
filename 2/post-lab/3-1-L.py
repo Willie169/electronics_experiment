@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-vin_pp = 4.0
+vin_pp = 0.2
 
 freq = np.concatenate(
     [
@@ -14,7 +14,7 @@ freq = np.concatenate(
 
 vout_pp = np.array(
     [
-        27.4, # 100
+        27.4,  # 100
         27.4,
         23,
         17.4,
@@ -23,7 +23,7 @@ vout_pp = np.array(
         10.2,
         9.2,
         8.4,
-        7.4, # 1k
+        7.4,  # 1k
         4.0,
         2.8,
         2.2,
@@ -32,17 +32,17 @@ vout_pp = np.array(
         1.2,
         1.0,
         1.0,
-        1.0, # 10k
+        1.0,  # 10k
         0.8,
         0.8,
         0.8,
         0.8,
-        0.6, # 15k
+        0.6,  # 15k
         0.6,
         0.6,
         0.6,
         0.6,
-        0.6, # 20k
+        0.6,  # 20k
         0.6,
         0.6,
         0.6,
@@ -50,13 +50,15 @@ vout_pp = np.array(
         0.6,
         0.6,
         0.6,
-        0.6, # 100k
+        0.6,  # 100k
         0.6,
         0.6,
         0.6,
         0.6,
     ]
 )
+
+assert freq.shape == vout_pp.shape
 
 gain = vout_pp / vin_pp
 gain_db = 20 * np.log10(gain)
