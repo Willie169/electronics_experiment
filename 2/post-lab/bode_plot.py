@@ -38,7 +38,7 @@ def magnitude_db(H):
     return 20 * np.log10(np.abs(H))
 
 
-def process(C, freq, vout_pp, name, title, fig_filename, csv_filename):
+def process(C, freq, vout_pp, name, title, plotname, tablename):
     assert freq.shape == vout_pp.shape
     freq = np.asarray(freq, dtype=float)
     measured = np.asarray(vout_pp, dtype=float)
@@ -51,15 +51,15 @@ def process(C, freq, vout_pp, name, title, fig_filename, csv_filename):
     ideal_error = 100 * (measured - ideal_vout) / ideal_vout
     gbw_error = 100 * (measured - gbw_vout) / gbw_vout
     columns = [
-        "frequency_Hz",
-        "measured_vout_pp_V",
-        "measured_gain_dB",
-        "ideal_vout_pp_V",
-        "ideal_gain_dB",
-        "ideal_error_percent",
-        "gbw_vout_pp_V",
-        "gbw_gain_dB",
-        "gbw_error_percent",
+        "frequency (Hz)",
+        "measured output voltage peak-to-peak (V)",
+        "measured gain (dB)",
+        "ideal output voltage peak-to-peak (V)",
+        "ideal gain (dB)",
+        "ideal error percent",
+        "GBW output voltage peak-to-peak (V)",
+        "GBW gain (dB)",
+        "GBW error percent",
     ]
     data = np.column_stack(
         [
@@ -74,10 +74,19 @@ def process(C, freq, vout_pp, name, title, fig_filename, csv_filename):
             gbw_error,
         ]
     )
-    with open(csv_filename, "w", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerow(columns)
-        writer.writerows(data)
+    fig, ax = plt.subplots(figsize=(7, 2.5))
+    ax.axis("off")
+    table = ax.table(
+        cellText=data,
+        colLabels=columns,
+        loc="center",
+        cellLoc="center",
+    )
+    table.auto_set_font_size(False)
+    table.set_fontsize(11)
+    table.scale(1, 1.5)
+    fig.savefig(tablename, dpi=300, bbox_inches="tight")
+    plt.close(fig)
     plt.figure(figsize=(10, 6))
     plt.semilogx(freq, measured_db, "o-", label="Measured")
     plt.semilogx(freq, ideal_db, "--", label="Ideal op-amp")
@@ -88,7 +97,7 @@ def process(C, freq, vout_pp, name, title, fig_filename, csv_filename):
     plt.grid(True, which="both", linestyle="--", alpha=0.5)
     plt.legend()
     plt.tight_layout()
-    plt.savefig(fig_filename, dpi=300)
+    plt.savefig(plotname, dpi=300)
     plt.close()
 
 
@@ -304,8 +313,8 @@ process(
     vout_pp_int_103,
     "integrator_without_rf",
     "Exp. 3 (I) Integrator Bode Magnitude Plot",
-    "3Iint.png",
-    "3Iint.csv",
+    "3Iint_plot.png",
+    "3Iint_table.png",
 )
 
 # Exp. 3 (I) Differentiator
@@ -315,8 +324,8 @@ process(
     vout_pp_diff,
     "differentiator",
     "Exp. 3 (I) Differentiator Bode Magnitude Plot",
-    "3Idiff.png",
-    "3Idiff.csv",
+    "3Idiff_plot.png",
+    "3Idiff_table.png",
 )
 
 # Exp. 3 (II) Integrator without feedback resistor
@@ -326,8 +335,8 @@ process(
     vout_pp_int_103,
     "integrator_without_rf",
     "Exp. 3 (II) Integrator without Feedback Resistor Bode Magnitude Plot",
-    "3IIwithout.png",
-    "3IIwithout.csv",
+    "3IIwithout_plot.png",
+    "3IIwithout_table.png",
 )
 
 # Exp. 3 (II) Integrator with feedback resistor
@@ -337,6 +346,6 @@ process(
     vout_pp_int_rf,
     "integrator_with_rf",
     "Exp. 3 (II) Integrator with Feedback Resistor Bode Magnitude Plot",
-    "3IIwith.png",
-    "3IIwith.csv",
+    "3IIwith_plot.png",
+    "3IIwith_table.png",
 )
