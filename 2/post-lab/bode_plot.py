@@ -97,7 +97,7 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     table.scale(1, 1)
     fig.savefig(tablename, dpi=300, bbox_inches="tight")
     plt.close(fig)
-    plt.figure(figsize=(10, 1))
+    plt.figure(figsize=(10, 6))
     plt.semilogx(freq, measured_db, "o-", label="Measured")
     plt.semilogx(freq, ideal_db, "--", label="Ideal op-amp")
     plt.semilogx(freq, gbw_db, "-.", label="GBW = 1 MHz")
