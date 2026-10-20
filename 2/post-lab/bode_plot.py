@@ -78,7 +78,7 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
         cellLoc="center",
     )
     table.auto_set_font_size(True)
-    table.scale(1, 1)
+    table.scale(1, 2)
     fig.savefig(tablename, dpi=300, bbox_inches="tight")
     plt.close(fig)
     plt.figure(figsize=(10, 6))
