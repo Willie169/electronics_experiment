@@ -52,26 +52,26 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     gbw_error = 100 * (measured - gbw_vout) / gbw_vout
     columns = [
         "frequency (Hz)",
-        "measured vout_pp (V)",
-        "measured gain (dB)",
-        "ideal vout_pp (V)",
-        "ideal gain (dB)",
-        "error w.r.t. ideal (%)",
-        "GBW vout_pp (V)",
+        "measured output voltage\npeak-to-peak (V)",
+        "measured gain\n(dB)",
+        "ideal output voltage\npeak-to-peak (V)",
+        "ideal gain\n(dB)",
+        "error w.r.t.\nideal (%)",
+        "GBW output voltage\npeak-to-peak (V)",
         "GBW gain (dB)",
-        "error w.r.t. GBW (%)",
+        "error w.r.t.\nGBW (%)",
     ]
     data = [
         [
             f"{f:.0f}",
-            f"{m:.7f}",
-            f"{md:.7f}",
-            f"{i:.7f}",
-            f"{id:.7f}",
-            f"{ie:.7f}",
-            f"{g:.7f}",
-            f"{gd:.7f}",
-            f"{ge:.7f}",
+            f"{m:.3f}",
+            f"{md:.3f}",
+            f"{i:.3f}",
+            f"{id:.3f}",
+            f"{ie:.3f}",
+            f"{g:.3f}",
+            f"{gd:.3f}",
+            f"{ge:.3f}",
         ]
         for f, m, md, i, id, ie, g, gd, ge in zip(
             freq,
@@ -85,7 +85,7 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
             gbw_error,
         )
     ]
-    fig, ax = plt.subplots(figsize=(10, 2))
+    fig, ax = plt.subplots(figsize=(10, 6))
     ax.axis("off")
     table = ax.table(
         cellText=data,
@@ -93,8 +93,7 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
         loc="center",
         cellLoc="center",
     )
-    table.auto_set_font_size(False)
-    table.set_fontsize(5)
+    table.auto_set_font_size(True)
     table.scale(1, 1)
     fig.savefig(tablename, dpi=300, bbox_inches="tight")
     plt.close(fig)
