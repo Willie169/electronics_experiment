@@ -74,7 +74,7 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
             gbw_error,
         ]
     )
-    fig, ax = plt.subplots(figsize=(7, 2.5))
+    fig, ax = plt.subplots(figsize=(10, 2))
     ax.axis("off")
     table = ax.table(
         cellText=data,
@@ -84,7 +84,7 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     )
     table.auto_set_font_size(False)
     table.set_fontsize(6)
-    table.scale(1, 1.5)
+    table.scale(1, 1)
     fig.savefig(tablename, dpi=300, bbox_inches="tight")
     plt.close(fig)
     plt.figure(figsize=(10, 6))
