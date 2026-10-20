@@ -54,11 +54,11 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     data = [
         [
             f"{f:.0f}",
-            f"{m:.3f}",
-            f"{md:.3f}",
-            f"{i:.3f}",
-            f"{id:.3f}",
-            f"{ie:.3f}",
+            f"{m:.2f}",
+            f"{md:.2f}",
+            f"{i:.2f}",
+            f"{id:.2f}",
+            f"{ie:.2f}",
         ]
         for f, m, md, i, id, ie in zip(
             freq,
@@ -78,7 +78,7 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
         cellLoc="center",
     )
     table.auto_set_font_size(True)
-    table.scale(1, 2)
+    table.scale(1, 1.5)
     fig.savefig(tablename, dpi=300, bbox_inches="tight")
     plt.close(fig)
     plt.figure(figsize=(10, 6))
