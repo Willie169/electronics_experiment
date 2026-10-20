@@ -1,3 +1,24 @@
+"""
+Exp. 3 Frequency Responses (I)
+Measure frequency response of the circuit in Exp. 1 Integrator under
+\[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{300 kHz}\]
+and sketch the Bode magnitude plot.
+
+Measure frequency response of the circuit in Exp. 2 Differentiator under
+\[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{100 kHz}\]
+and sketch the Bode magnitude plot.
+
+Exp. 3 Frequency Responses (II)
+
+Measure frequency response of the circuit in Exp. 1 Integrator with the capacitor $C$ replaced with a capacitor $C=0.001$ \textmu{}F (102) under
+\[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{1 MHz}\]
+and sketch the Bode magnitude plot.
+
+Measure frequency response of the circuit in Exp. 1 Integrator with the capacitor $C$ replaced with a capacitor $C=0.001$ \textmu{}F (102) and a resistor $R_F$ in parallel connection under
+\[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{1 MHz}\]
+and sketch the Bode magnitude plot.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
