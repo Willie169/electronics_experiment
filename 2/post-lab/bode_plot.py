@@ -114,10 +114,8 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
 freq_int_103 = np.concatenate(
     [
         np.arange(100, 2000, 100),
-        np.arange(2000, 3000, 200),
-        np.arange(3000, 4000, 500),
-        np.arange(4000, 8000, 1000),
-        np.arange(8000, 10000, 2000),
+        np.arange(2000, 4000, 200),
+        np.arange(4000, 10000, 1000),
         np.arange(10000, 100000, 10000),
         np.arange(100000, 350000, 50000),
     ]
@@ -134,42 +132,46 @@ vout_pp_int_103 = np.array(
         10.4,
         9.2,
         8.2,
-        7.4,  # 1k
-        6.8,
+        7.2,  # 1k
         6.4,
-        6.0,
-        5.6,
+        5.8,
         5.2,
-        5.0,
         4.8,
-        4.6,
         4.4,
-        4.2,  # 2k
-        3.8,  # 2.2k
+        4.0,
+        3.8,
         3.6,
         3.4,
-        3.2,
-        3.0,  # 3k
-        2.6,  # 3.5k
-        2.2,  # 4k
+        3.2,  # 2k
+        2.8,  # 2.2k
+        2.6,
+        2.4,
+        2.2,
+        2.0,
         1.8,
         1.6,
         1.4,
-        1.2,  # 8k
-        1,  # 10k
-        0.6,  # 20k
-        0.4,
-        0.4,
-        0.4,
-        0.4,
-        0.4,
-        0.4,
-        0.4,
-        0.4,  # 100k
-        0.4,
-        0.4,
-        0.4,
-        0.4,
+        1.2,
+        1.2,  # 4k
+        1,  # 5k
+        1,
+        0.8,
+        0.8,
+        0.6,
+        0.6,
+        0.4,  # 20k
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2,  # 100k
+        0.2,
+        0.2,
+        0.2,
+        0.2,
     ]
 )
 
@@ -341,8 +343,8 @@ process(
 # Exp. 3 (II) Integrator without feedback resistor
 process(
     1e-9,
-    freq_int_103,
-    vout_pp_int_103,
+    freq_int_102,
+    vout_pp_int_102,
     "integrator_without_rf",
     "Exp. 3 (II) Integrator without Feedback Resistor Bode Magnitude Plot",
     "3IIwithout_plot.png",
