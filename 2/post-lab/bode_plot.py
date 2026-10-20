@@ -7,7 +7,6 @@ RF = 20e3  # Integrator feedback resistor, ohms
 R_DIFF = 1e3  # Differentiator feedback resistor, ohms
 GBW = 1e6  # Op-amp gain-bandwidth product, Hz
 VIN_PP = 0.4  # Input peak-to-peak voltage, V
-ZERO_SUBSTITUTE = 1.175494e-38
 
 
 def transfer_function(freq, name, C):
