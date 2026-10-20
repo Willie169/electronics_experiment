@@ -61,8 +61,19 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
         "GBW gain (dB)",
         "relative error w.r.t. GBW",
     ]
-    data = np.column_stack(
+    data = [
         [
+            f"{f:.0f}",
+            f"{m:.3f}",
+            f"{md:.3f}",
+            f"{i:.3f}",
+            f"{id:.3f}",
+            f"{ie:.3f}",
+            f"{g:.3f}",
+            f"{gd:.3f}",
+            f"{ge:.3f}",
+        ]
+        for f, m, md, i, id, ie, g, gd, ge in zip(
             freq,
             measured,
             measured_db,
@@ -72,8 +83,8 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
             gbw_vout,
             gbw_db,
             gbw_error,
-        ]
-    )
+        )
+    ]
     fig, ax = plt.subplots(figsize=(10, 2))
     ax.axis("off")
     table = ax.table(
