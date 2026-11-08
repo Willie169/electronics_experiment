@@ -128,5 +128,13 @@ Transfer function: STC low-pass with cutoff frequency $\frac{1}{2\pi R_FC}$ and 
 \cticg[width=0.8\tw]{3IIwith_table.png}
 \ssc{Bode plot}
 \cticg[width=0.8\tw]{3IIwith_plot.png}
+\sct{誤差可能原因}
+The differences between the theoretical and experimental results may be attributed to the following factors:
+\bit
+\item Non-ideal operational amplifier characteristics: The operational amplifier has finite open-loop gain, gain-bandwidth product, slew rate, etc. Thus, its behavior deviates from the ideal op-amp model, especially at high frequencies.
+\item Output saturation: The ideal integrator has infinite DC gain. Small DC offsets and input bias currents may make low-frequency measurements deviate from the ideal op-amp model.
+\item Measurement limitations: Oscilloscope precision may introduce errors, especially when the output amplitude becomes small.
+\item Component errors: The actual resistance and capacitance values may differ from their nominal values. Probes, wires, and contact points may have nonzero impedance.
+\eit
 \sct{實驗心得}
 \end{document}
