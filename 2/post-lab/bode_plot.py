@@ -105,9 +105,9 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     fig.savefig(tablename, dpi=300, bbox_inches="tight")
     plt.close(fig)
     fig, ax = plt.subplots(figsize=(12, 7))
-    line_styles = ["--", "o-"]
-    amp_names = ["Ideal op-amp", "Measured"]
-    amp_colors = ["tab:orange", "tab:blue"]
+    line_styles = ["o-", "--"]
+    amp_names = ["Measured", "Ideal op-amp"]
+    amp_colors = ["tab:blue", "tab:orange"]
     for db, line_style, amp_name, color in zip(dbs, line_styles, amp_names, amp_colors):
         ax.semilogx(freq, db, line_style, label=amp_name, color=color)
     freq_dense = np.logspace(
@@ -123,7 +123,7 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
             find_crossings(freq, dbs[0], level),
             find_crossings(freq_dense, ideal_dense_db, level),
         ]
-        label = f"{level} dB:"
+        label = f"{level} dB reference"
         for crossing, amp_name, amp_color in zip(crossings, amp_names, amp_colors):
             for i, fc in enumerate(crossing):
                 ax.plot(
@@ -138,14 +138,12 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
                     fc,
                     color=amp_color,
                     linestyle="-.",
-                    linewidth=1,
                 )
                 label += f"\n    {amp_name}: {format_frequency(fc)}"
         ax.axhline(
             level,
             color=reference_color,
             linestyle="-.",
-            linewidth=1.2,
             label=label,
         )
     ax.set_xlabel("Frequency (Hz)")
