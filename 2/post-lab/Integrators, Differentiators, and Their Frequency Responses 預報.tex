@@ -5,9 +5,8 @@
 \author{B14901078 林孜謙、B14901153 沈威宇}
 \date{}
 \titledoc
-\sct{實驗結果、Bode Plot 與數據分析}
-\ssc{Exp. 1 Integrator}
-\sssc{Circuit}
+\sct{Exp. 1 Integrator}
+\ssc{Circuit}
 Measure $v_I$ and $v_O$ waveforms of an op amp where input voltage $v_I$ is connected to $v_-$ through an input resistance $R=1$ k\textOmega (current from $v_I$ to $v_-$), $v_+$ is connected to ground, and $v_O$ is fed back to $v_-$ through a capacitance $C=0.01$ \textmu{}F (103) (current from $v_-$ to $v_O$), under triangle, square, and sinusoidal $v_I$ with amplitude $0.2$.
 \sssc{Theoretical results}
 $v_O(0^-)$ is the initial voltage across $C$ ($v_O$ relative to $v_-$).
@@ -38,18 +37,17 @@ Triangle wave output with amplitude $\frac{AT}{4RC}$
 Sinusoidal output 90 degrees leading input with amplitude $\frac{AT}{RC}$.
 \[v_O(t)=\frac{AT}{RC}\cos(\frac{t}{T})\]
 \eit
-\sssc{Measured data}
-\cticg[width=0.8\tw]{3Iint_table.png}
-\sssc{Bode plot}
-\cticg[width=0.8\tw]{3Iint_plot.png}
-
-
-
-\ssc{Exp. 2 Differentiator}
+\ssc{實驗結果}
+Triangle wave:
+\cticg[width=0.8\tw]{int_trig.jpg}
+Square wave:
+\cticg[width=0.8\tw]{int_squ.jpg}
+Sinusoidal wave:
+\cticg[width=0.8\tw]{int_sin.jpg}
+\sct{Exp. 2 Differentiator}
+\ssc{Circuit}
 Measure $v_I$ and $v_O$ waveforms of an op amp where input voltage $v_I$ is connected to $v_-$ through an input capacitor $C=0.01$ \textmu{}F (103) (current from $v_I$ to $v_-$), $v_+$ is connected to ground, and $v_O$ is fed back to $v_-$ through a resistor $R=1$ k\textOmega (current from $v_-$ to $v_O$), under triangle, square, and sinusoidal $v_I$ with amplitude $0.2$.
-
-Theoretical results:
-
+\ssc{Theoretical results}
 $v_I(0^-)$ is the initial voltage across $C$ ($v_I$ relative to $v_-$).
 
 Time domain:
@@ -77,38 +75,58 @@ Dirac delta sum output
 Sinusoidal output 90 degrees lagging input with amplitude $\frac{ARC}{T}$.
 \[v_O(t)=-\frac{ARC}{T}\cos(\frac{t}{T})\]
 \eit
-\ssc{Exp. 3 Frequency Responses (I)}
+\ssc{實驗結果與數據分析}
+Triangle wave:
+\cticg[width=0.8\tw]{dif_trig.jpg}
+Square wave:
+\cticg[width=0.8\tw]{dif_squ.jpg}
+Sinusoidal wave:
+\cticg[width=0.8\tw]{dif_sin.jpg}
+\sct{Exp. 3 Frequency Responses (I) Integrator}
+\ssc{Circuit}
 Measure frequency response of the circuit in Exp. 1 Integrator under
 \[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{300 kHz}\]
 and sketch the Bode magnitude plot.
-
+\ssc{實驗結果與數據分析}
+\cticg[width=0.8\tw]{3Iint_table.png}
+\ssc{Bode plot}
+\cticg[width=0.8\tw]{3Iint_plot.png}
+\sct{Exp. 3 Frequency Responses (I) Differentiator}
+\ssc{Circuit}
 Measure frequency response of the circuit in Exp. 2 Differentiator under
 \[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{100 kHz}\]
 and sketch the Bode magnitude plot.
-\ssc{Exp. 3 Frequency Responses (II)}
+\ssc{實驗結果與數據分析}
+\cticg[width=0.8\tw]{3Idiff_table.png}
+\ssc{Bode plot}
+\cticg[width=0.8\tw]{3Idiff_plot.png}
+\sct{Exp. 3 Frequency Responses (II) Integrator without feedback resistor}
+\ssc{Circuit}
 Measure frequency response of the circuit in Exp. 1 Integrator with the capacitor $C$ replaced with a capacitor $C=0.001$ \textmu{}F (102) under
 \[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{1 MHz}\]
 and sketch the Bode magnitude plot.
-
-Theoretical results:
-
+\ssc{Theoretical results}
 Unity-gain frequency
 \[\frac{1}{2\pi RC}\approx\tx{159 kHz}\]
-
+\ssc{實驗結果與數據分析}
+\cticg[width=0.8\tw]{3IIwithout_table.png}
+\ssc{Bode plot}
+\cticg[width=0.8\tw]{3IIwithout_plot.png}
+\sct{Exp. 3 Frequency Responses (II) Integrator with feedback resistor}
+\ssc{Circuit}
 Measure frequency response of the circuit in Exp. 1 Integrator with the capacitor $C$ replaced with a capacitor $C=0.001$ \textmu{}F (102) and a resistor $R_F$ in parallel connection under
 \[v_I=0.2\sin(2\pi ft),\quad f=\tx{100 Hz}\sim\tx{1 MHz}\]
 and sketch the Bode magnitude plot.
-
-Theoretical results:
-
+\ssc{Theoretical results}
 Laplace domain:
 \[V_+=V_-=0\]
 \[I_I=\frac{V_I}{R}=I_F=-\qty(\frac{1}{R_F}+Cs)V_O+Cv_O(0^-)=-\frac{1+R_FCs}{R_F}V_O+Cv_O(0^-)\]
 \[V_O=\frac{R_FC}{1+R_FCs}v_O(0^-)-\frac{\frac{R_F}{R}}{1+R_FCs}V_I\]
 Transfer function: STC low-pass with cutoff frequency $\frac{1}{2\pi R_FC}$ and DC gain $\frac{R_F}{R}$.
 \[H(s)=\frac{V_o}{V_i}=-\frac{\frac{R_F}{R}}{1+R_FCs}\]
-
-
-實驗心得
-數據分析
+\ssc{實驗結果與數據分析}
+\cticg[width=0.8\tw]{3IIwith_table.png}
+\ssc{Bode plot}
+\cticg[width=0.8\tw]{3IIwith_plot.png}
+\sct{實驗心得}
 \end{document}
