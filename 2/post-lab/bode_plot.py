@@ -106,17 +106,18 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     fig.savefig(tablename, dpi=300, bbox_inches="tight")
     plt.close(fig)
     fig, ax = plt.subplots(figsize=(12, 7))
-    ax.semilogx(freq, measured_db, "o-", label="Measured")
-    ax.semilogx(freq, ideal_db, "--", label="Ideal op-amp")
+    amp_names = ["Ideal", "Measured"]
+    amp_colors = ["tab:orange", "tab:blue"]
     reference_levels = [0, -3]
     reference_colors = ["pink", "violet"]
+    ax.semilogx(freq, ideal_db, "--", label="Ideal op-amp", color=amp_colors[0])
+    ax.semilogx(freq, measured_db, "o-", label="Measured", color=amp_colors[1])
     for level, color in zip(reference_levels, reference_colors):
         ax.axhline(
             level,
             color=color,
-            linestyle=":",
+            linestyle="-.",
             linewidth=1.2,
-            alpha=0.8,
             label=f"{level} dB reference",
         )
     freq_dense = np.logspace(
@@ -125,14 +126,12 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
         10000,
     )
     ideal_dense_db = magnitude_db(transfer_function(freq_dense, name, C))
-    crossing_names = ["Ideal", "Measured"]
-    crossing_colors = ["tab:orange", "tab:blue"]
     for level in reference_levels:
         crossings = [
             find_crossings(freq_dense, ideal_dense_db, level),
             find_crossings(freq, measured_db, level),
         ]
-        for crossing, name, color in zip(crossings, crossing_names, crossing_colors):
+        for crossing, name, color in zip(crossings, amp_names, amp_colors):
             for i, fc in enumerate(crossing):
                 ax.plot(
                     fc,
@@ -145,8 +144,7 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
                 ax.axvline(
                     fc,
                     color=color,
-                    linestyle=":",
-                    alpha=0.6,
+                    linestyle="-.",
                     linewidth=1,
                 )
                 ax.annotate(
