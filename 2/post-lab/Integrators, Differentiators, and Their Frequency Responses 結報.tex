@@ -8,7 +8,7 @@
 \sct{Exp. 1 Integrator}
 \ssc{Circuit}
 Measure $v_I$ and $v_O$ waveforms of an op amp where input voltage $v_I$ is connected to $v_-$ through an input resistance $R=1$ k\textOmega (current from $v_I$ to $v_-$), $v_+$ is connected to ground, and $v_O$ is fed back to $v_-$ through a capacitance $C=0.01$ \textmu{}F (103) (current from $v_-$ to $v_O$), under triangle, square, and sinusoidal $v_I$ with amplitude $0.2$.
-\sssc{Theoretical results}
+\ssc{Theoretical results}
 $v_O(0^-)$ is the initial voltage across $C$ ($v_O$ relative to $v_-$).
 
 Time domain:
@@ -37,13 +37,14 @@ Triangle wave output with amplitude $\frac{AT}{4RC}$
 Sinusoidal output 90 degrees leading input with amplitude $\frac{AT}{RC}$.
 \[v_O(t)=\frac{AT}{RC}\cos(\frac{t}{T})\]
 \eit
-\ssc{實驗結果}
+\ssc{實驗結果與數據分析}
 Triangle wave:
 \cticg[width=0.8\tw]{int_trig.jpg}
 Square wave:
 \cticg[width=0.8\tw]{int_squ.jpg}
 Sinusoidal wave:
 \cticg[width=0.8\tw]{int_sin.jpg}
+All three agree with the theoretical results.
 \sct{Exp. 2 Differentiator}
 \ssc{Circuit}
 Measure $v_I$ and $v_O$ waveforms of an op amp where input voltage $v_I$ is connected to $v_-$ through an input capacitor $C=0.01$ \textmu{}F (103) (current from $v_I$ to $v_-$), $v_+$ is connected to ground, and $v_O$ is fed back to $v_-$ through a resistor $R=1$ k\textOmega (current from $v_-$ to $v_O$), under triangle, square, and sinusoidal $v_I$ with amplitude $0.2$.
@@ -75,13 +76,14 @@ Dirac delta sum output
 Sinusoidal output 90 degrees lagging input with amplitude $\frac{ARC}{T}$.
 \[v_O(t)=-\frac{ARC}{T}\cos(\frac{t}{T})\]
 \eit
-\ssc{實驗結果}
+\ssc{實驗結果與數據分析}
 Triangle wave:
 \cticg[width=0.8\tw]{dif_trig.jpg}
 Square wave:
 \cticg[width=0.8\tw]{dif_squ.jpg}
 Sinusoidal wave:
 \cticg[width=0.8\tw]{dif_sin.jpg}
+All three agree with the theoretical results. For the triangle wave input, the underdamping effect at each transition of square wave output is likely due to parasitic impedances.
 \sct{Exp. 3 Frequency Responses (I) Integrator}
 \ssc{Circuit}
 Measure frequency response of the circuit in Exp. 1 Integrator under
@@ -131,10 +133,15 @@ Transfer function: STC low-pass with cutoff frequency $\frac{1}{2\pi R_FC}$ and 
 \sct{誤差可能原因}
 The differences between the theoretical and experimental results may be attributed to the following factors:
 \bit
-\item Non-ideal operational amplifier characteristics: The operational amplifier has finite open-loop gain, gain-bandwidth product, slew rate, etc. Thus, its behavior deviates from the ideal op-amp model, especially at high frequencies.
-\item Output saturation: The ideal integrator has infinite DC gain. Small DC offsets and input bias currents may make low-frequency measurements deviate from the ideal op-amp model.
-\item Measurement limitations: Oscilloscope precision may introduce errors, especially when the output amplitude becomes small.
-\item Component errors: The actual resistance and capacitance values may differ from their nominal values. Probes, wires, and contact points may have nonzero impedance.
+\item Measurement limitations: Oscilloscope has inadequate precision when the output amplitude becomes small.
+\item Non-ideal operational amplifier characteristics: The operational amplifier has finite open-loop gain, gain-bandwidth product, slew rate, etc.
+\item Output saturation: The ideal integrator has infinite DC gain. Small DC offsets and input bias may make low-frequency measurements deviate from the ideal op-amp model.
+\item Component tolerances: The actual resistance and capacitance values may differ from their nominal values, and the probes and contact points may have nonzero impedances.
+\item Parasitic effects: Parasitic impedances in the circuit and measurement equipment may affect the frequency response, especially at high frequencies.
 \eit
 \sct{實驗心得}
+\ssc{B14901078 林孜謙}
+PLACEHOLDER
+\ssc{B14901153 沈威宇}
+
 \end{document}

@@ -34,6 +34,30 @@ def magnitude_db(H):
     return 20 * np.log10(np.abs(H))
 
 
+def find_crossings(freq, gain_db, level):
+    x = np.log10(freq)
+    y = np.asarray(gain_db) - level
+    crossings = []
+    for i in range(len(x) - 1):
+        if y[i] * y[i + 1] < 0:
+            xc = x[i] - y[i] * (x[i + 1] - x[i]) / (y[i + 1] - y[i])
+            crossings.append(10**xc)
+        elif y[i] == 0:
+            crossings.append(freq[i])
+    if len(y) > 0 and y[-1] == 0:
+        crossings.append(freq[-1])
+    return sorted(set(crossings))
+
+
+def format_frequency(freq):
+    if freq >= 1e6:
+        return f"{freq / 1e6:.2f} MHz"
+    elif freq >= 1e3:
+        return f"{freq / 1e3:.2f} kHz"
+    else:
+        return f"{freq:.1f} Hz"
+
+
 def process(C, freq, vout_pp, name, title, plotname, tablename):
     assert freq.shape == vout_pp.shape
     freq = np.asarray(freq, dtype=float)
@@ -81,17 +105,67 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     table.scale(1, 1.5)
     fig.savefig(tablename, dpi=300, bbox_inches="tight")
     plt.close(fig)
-    plt.figure(figsize=(10, 6))
-    plt.semilogx(freq, measured_db, "o-", label="Measured")
-    plt.semilogx(freq, ideal_db, "--", label="Ideal op-amp")
-    plt.xlabel("Frequency (Hz)")
-    plt.ylabel("Magnitude (dB)")
-    plt.title(title)
-    plt.grid(True, which="both", linestyle="--", alpha=0.5)
-    plt.legend()
-    plt.tight_layout()
-    plt.savefig(plotname, dpi=300)
-    plt.close()
+    fig, ax = plt.subplots(figsize=(12, 7))
+    ax.semilogx(freq, measured_db, "o-", label="Measured")
+    ax.semilogx(freq, ideal_db, "--", label="Ideal op-amp")
+    reference_levels = [0, -3]
+    reference_colors = ["pink", "violet"]
+    for level, color in reference_levels, reference_colors:
+        ax.axhline(
+            level,
+            color=color,
+            linestyle=":",
+            linewidth=1.2,
+            alpha=0.8,
+            label=f"{level} dB reference",
+        )
+    freq_dense = np.logspace(
+        np.log10(freq.min()),
+        np.log10(freq.max()),
+        10000,
+    )
+    ideal_dense_db = magnitude_db(transfer_function(freq_dense, name, C))
+    crossing_names = ["Ideal", "Measured"]
+    crossing_colors = ["tab:orange", "tab:blue"]
+    for level in reference_levels:
+        crossings = [
+            find_crossings(freq_dense, ideal_dense_db, level),
+            find_crossings(freq, measured_db, level),
+        ]
+        for crossing, name, color in crossings, crossing_names, crossing_colors:
+            for i, fc in enumerate(crossings):
+                ax.plot(
+                    fc,
+                    level,
+                    marker="D",
+                    markersize=6,
+                    color=color,
+                    zorder=5,
+                )
+                ax.axvline(
+                    fc,
+                    color=color,
+                    linestyle=":",
+                    alpha=0.6,
+                    linewidth=1,
+                )
+                ax.annotate(
+                    f"{name}: {format_frequency(fc)}",
+                    xy=(fc, level),
+                    xytext=(8, -18 - 16 * i),
+                    textcoords="offset points",
+                    fontsize=9,
+                    color=color,
+                    ha="left",
+                )
+    ax.set_xlabel("Frequency (Hz)")
+    ax.set_ylabel("Magnitude (dB)")
+    ax.set_title(title)
+    ax.grid(True, which="both", linestyle="--", alpha=0.5)
+    ax.legend()
+    fig.tight_layout()
+    fig.savefig(plotname, dpi=300)
+    plt.close(fig)
 
 
 freq_int_103 = np.concatenate(
