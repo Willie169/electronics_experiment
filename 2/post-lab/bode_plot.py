@@ -110,7 +110,7 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     ax.semilogx(freq, ideal_db, "--", label="Ideal op-amp")
     reference_levels = [0, -3]
     reference_colors = ["pink", "violet"]
-    for level, color in reference_levels, reference_colors:
+    for level, color in zip(reference_levels, reference_colors):
         ax.axhline(
             level,
             color=color,
@@ -132,8 +132,8 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
             find_crossings(freq_dense, ideal_dense_db, level),
             find_crossings(freq, measured_db, level),
         ]
-        for crossing, name, color in crossings, crossing_names, crossing_colors:
-            for i, fc in enumerate(crossings):
+        for crossing, name, color in zip(crossings, crossing_names, crossing_colors):
+            for i, fc in enumerate(crossing):
                 ax.plot(
                     fc,
                     level,
