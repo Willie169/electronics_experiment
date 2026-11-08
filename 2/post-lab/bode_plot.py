@@ -117,35 +117,36 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     )
     ideal_dense_db = magnitude_db(transfer_function(freq_dense, name, C))
     reference_levels = [0, -3]
-    reference_colors = ["pink", "violet"]
+    reference_colors = ["m", "y"]
     for level, reference_color in zip(reference_levels, reference_colors):
         crossings = [
             find_crossings(freq, dbs[0], level),
             find_crossings(freq_dense, ideal_dense_db, level),
         ]
-        label = f"{level} dB reference"
-        for crossing, amp_name, amp_color in zip(crossings, amp_names, amp_colors):
+        ax.axhline(
+            level,
+            color=reference_color,
+            linestyle="-.",
+            label=f"{level} dB reference",
+            alpha=0.8,
+        )
+        for crossing, amp_name in zip(crossings, amp_names):
             for i, fc in enumerate(crossing):
                 ax.plot(
                     fc,
                     level,
                     marker="D",
                     markersize=6,
-                    color=amp_color,
+                    color=reference_color,
                     zorder=5,
                 )
                 ax.axvline(
                     fc,
-                    color=amp_color,
+                    color=reference_color,
                     linestyle="-.",
+                    label=f"{amp_name} {level} dB frequency: {format_frequency(fc)}",
+                    alpha=0.8,
                 )
-                label += f"\n    {amp_name}: {format_frequency(fc)}"
-        ax.axhline(
-            level,
-            color=reference_color,
-            linestyle="-.",
-            label=label,
-        )
     ax.set_xlabel("Frequency (Hz)")
     ax.set_ylabel("Magnitude (dB)")
     ax.set_title(title)
