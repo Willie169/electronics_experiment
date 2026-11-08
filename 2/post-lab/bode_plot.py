@@ -64,8 +64,7 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     measured = np.asarray(vout_pp, dtype=float)
     H = transfer_function(freq, name, C)
     ideal_vout = VIN_PP * np.abs(H)
-    measured_db = 20 * np.log10(measured / VIN_PP)
-    ideal_db = magnitude_db(H)
+    dbs = [20 * np.log10(measured / VIN_PP), magnitude_db(H)]
     ideal_error = 100 * (measured - ideal_vout) / ideal_vout
     columns = [
         "frequency (Hz)",
@@ -87,9 +86,9 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
         for f, m, md, i, id, ie in zip(
             freq,
             measured,
-            measured_db,
+            dbs[0],
             ideal_vout,
-            ideal_db,
+            dbs[1],
             ideal_error,
         )
     ]
@@ -106,56 +105,49 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
     fig.savefig(tablename, dpi=300, bbox_inches="tight")
     plt.close(fig)
     fig, ax = plt.subplots(figsize=(12, 7))
-    amp_names = ["Ideal", "Measured"]
+    line_styles = ["--", "o-"]
+    names = ["Ideal op-amp", "Measured"]
     amp_colors = ["tab:orange", "tab:blue"]
-    reference_levels = [0, -3]
-    reference_colors = ["pink", "violet"]
-    ax.semilogx(freq, ideal_db, "--", label="Ideal op-amp", color=amp_colors[0])
-    ax.semilogx(freq, measured_db, "o-", label="Measured", color=amp_colors[1])
-    for level, color in zip(reference_levels, reference_colors):
-        ax.axhline(
-            level,
-            color=color,
-            linestyle="-.",
-            linewidth=1.2,
-            label=f"{level} dB reference",
-        )
+    for db, line_style, name, color in zip(dbs, line_styles, names, amp_colors):
+        ax.semilogx(freq, db, line_style, label=name, color=color)
     freq_dense = np.logspace(
         np.log10(freq.min()),
         np.log10(freq.max()),
         10000,
     )
     ideal_dense_db = magnitude_db(transfer_function(freq_dense, name, C))
-    for level in reference_levels:
+    reference_levels = [0, -3]
+    reference_colors = ["pink", "violet"]
+    for level, reference_color in zip(reference_levels, reference_colors):
         crossings = [
+            find_crossings(freq, dbs[0], level),
             find_crossings(freq_dense, ideal_dense_db, level),
-            find_crossings(freq, measured_db, level),
         ]
-        for crossing, name, color in zip(crossings, amp_names, amp_colors):
+        label = f"{level} dB:"
+        for crossing, name, amp_color in zip(crossings, names, amp_colors):
             for i, fc in enumerate(crossing):
                 ax.plot(
                     fc,
                     level,
                     marker="D",
                     markersize=6,
-                    color=color,
+                    color=amp_color,
                     zorder=5,
                 )
                 ax.axvline(
                     fc,
-                    color=color,
+                    color=amp_color,
                     linestyle="-.",
                     linewidth=1,
                 )
-                ax.annotate(
-                    f"{name}: {format_frequency(fc)}",
-                    xy=(fc, level),
-                    xytext=(8, -18 - 16 * i),
-                    textcoords="offset points",
-                    fontsize=9,
-                    color=color,
-                    ha="left",
-                )
+                label += f"\n    {name}: {format_frequency(fc)}"
+        ax.axhline(
+            level,
+            color=reference_color,
+            linestyle="-.",
+            linewidth=1.2,
+            label=label,
+        )
     ax.set_xlabel("Frequency (Hz)")
     ax.set_ylabel("Magnitude (dB)")
     ax.set_title(title)
