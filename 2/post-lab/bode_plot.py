@@ -128,7 +128,7 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
             color=reference_color,
             linestyle="-.",
             label=f"{level} dB reference",
-            alpha=0.8,
+            alpha=0.6,
         )
         for crossing, amp_name in zip(crossings, amp_names):
             for i, fc in enumerate(crossing):
@@ -136,7 +136,6 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
                     fc,
                     level,
                     marker="D",
-                    markersize=6,
                     color=reference_color,
                     zorder=5,
                 )
@@ -145,7 +144,7 @@ def process(C, freq, vout_pp, name, title, plotname, tablename):
                     color=reference_color,
                     linestyle="-.",
                     label=f"{amp_name} {level} dB frequency: {format_frequency(fc)}",
-                    alpha=0.8,
+                    alpha=0.6,
                 )
     ax.set_xlabel("Frequency (Hz)")
     ax.set_ylabel("Magnitude (dB)")
